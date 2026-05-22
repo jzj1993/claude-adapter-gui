@@ -46,11 +46,7 @@
 
 安装包通过 GitHub Releases 提供。
 
-Release 地址：
-
-```text
-https://github.com/jzj1993/claude-adapter-gui/releases
-```
+Release 地址：[GitHub Releases](https://github.com/jzj1993/claude-adapter-gui/releases)
 
 安装完成后，按以下步骤配置：
 
@@ -63,40 +59,27 @@ https://github.com/jzj1993/claude-adapter-gui/releases
 
 默认本地地址是：
 
-```text
-http://127.0.0.1:18787/anthropic
-```
+`http://127.0.0.1:18787/anthropic`
 
 开启“允许局域网访问”后，界面显示本机入口及探测到的局域网 IPv4 入口。可用入口在界面中标明。
 
 ## 配置说明
 
-### 当前应用配置
+### 设置界面推荐配置
 
-- `监听地址`：默认只监听 `127.0.0.1`
-- `端口`：默认 `18787`
-- `开机自启`
-- `启动后默认隐藏到状态栏`
-- `启动后自动启动代理服务`
-- `允许局域网访问`
-- `关闭窗口时隐藏 Dock 图标`
-- `调试日志`
+如果主要在本机使用，建议保持端口为 `18787`，并关闭 `允许局域网访问`。这样代理只对本机开放，路径最简单。
+
+如果希望应用常驻后台，建议同时开启 `启动后自动启动代理服务` 和 `启动后默认隐藏到状态栏`；在 macOS 上也可以按需开启 `关闭窗口时隐藏 Dock 图标`。
+
+`允许局域网访问` 默认不必开启，只有需要让同一局域网里的设备访问这台机器时再打开。`调试日志` 也建议只在排障时开启。
+
+映射项在设置页里单独添加，每条映射填写本地模型名、远程模型名、远程 Base URL、远程 API Key 和远程协议即可。`anthropic` 适合远程就是 Anthropic 风格接口，`openai` 适合远程是 OpenAI 兼容接口的情况。
 
 ### Claude 客户端配置
 
-- `Base URL`：见上方
-- `API Key`：任意填写，转发时实际会使用表格里对应行的密钥
-- `模型名`：填写你在客户端里要使用的本地模型名，对应应用里配置的 `localModelId`
-
-### 映射项配置
-
-- `localModelId`：客户端里看到的模型名
-- `remoteModelId`：真正发给远程服务的模型名
-- `remoteBaseUrl`：远程服务地址
-- `remoteApiKey`：远程服务密钥
-- `remoteProtocol`：
-  - `anthropic` 表示远程就是 Anthropic 风格接口
-  - `openai` 表示远程是 OpenAI 兼容接口，代理会帮你做转换
+- Base URL：见上方
+- API Key：任意填写，转发时实际会使用表格里对应行的密钥
+- 模型名：填写你在客户端里要使用的本地模型名，对应应用里配置的 `localModelId`
 
 ## 常用命令
 
