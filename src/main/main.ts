@@ -7,6 +7,7 @@ import path from "node:path";
 import zlib from "node:zlib";
 import { ProxyServiceManager } from "./proxy-service-manager";
 import type { ModelConfig, ServiceStatus } from "../shared/types";
+import { chooseWindowCloseAction, shouldUseNativeLoginItemSettings, syncLinuxAutostartEntry } from "./platform";
 
 let mainWindow: BrowserWindow | null = null;
 let tray: Tray | null = null;
@@ -20,7 +21,7 @@ async function bootstrap() {
 
   serviceManager = new ProxyServiceManager(path.join(app.getPath("userData"), "config.json"));
   const config = await serviceManager.getConfig();
-  applyLoginItemSetting(config.launchAtLogin);
+  await applyLoginItemSetting(config.launchAtLogin);
   if (config.autoStartProxy) {
     await serviceManager.start();
   }
@@ -44,7 +45,8 @@ async function createWindow(startHiddenToTray = false) {
     height: 780,
     minWidth: 1080,
     minHeight: 620,
-    title: "CLAUDE CLIENT ADAPTER",
+    title: "Claude Companion",
+    icon: getAppIconPath(),
     backgroundColor: "#f8fafc",
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
@@ -63,7 +65,7 @@ async function createWindow(startHiddenToTray = false) {
   mainWindow.on("close", (event) => {
     if (!isQuitting) {
       event.preventDefault();
-      hideToMenuBar();
+      handleWindowClose();
     }
   });
 
@@ -94,7 +96,7 @@ function registerIpc() {
   ipcMain.handle("config:save", async (_event, input) => {
     const config = await serviceManager?.saveConfig(input);
     if (config) {
-      applyLoginItemSetting(config.launchAtLogin);
+      await applyLoginItemSetting(config.launchAtLogin);
       refreshTrayMenu();
     }
     return config;
@@ -107,7 +109,7 @@ function registerIpc() {
 function createTray() {
   tray = new Tray(createTrayImage());
   tray.setTitle("");
-  tray.setToolTip("Claude Adapter GUI");
+  tray.setToolTip("Claude Companion");
   refreshTrayMenu();
   tray.on("click", () => {
     showTrayMenu();
@@ -170,6 +172,10 @@ function createTrayImage() {
   const image = nativeImage.createFromDataURL(createTrayPngDataUrl(18));
   image.setTemplateImage(true);
   return image;
+}
+
+function getAppIconPath() {
+  return path.join(__dirname, "../../../build/icon.png");
 }
 
 function createTrayPngDataUrl(size: number) {
@@ -269,6 +275,22 @@ function toggleMainWindow() {
   refreshTrayMenu();
 }
 
+function handleWindowClose() {
+  const action = chooseWindowCloseAction({
+    trayAvailable: Boolean(tray),
+    platform: process.platform
+  });
+
+  if (action === "minimize") {
+    mainWindow?.minimize();
+    mainWindow?.show();
+    refreshTrayMenu();
+    return;
+  }
+
+  hideToMenuBar();
+}
+
 function hideToMenuBar() {
   mainWindow?.hide();
   if (shouldHideDockOnClose() && process.platform === "darwin" && app.dock) {
@@ -290,8 +312,21 @@ function shouldHideDockOnClose() {
   return serviceManager?.getRuntimeConfig()?.ui.hideDockOnClose !== false;
 }
 
-function applyLoginItemSetting(openAtLogin: boolean) {
-  app.setLoginItemSettings({ openAtLogin });
+async function applyLoginItemSetting(openAtLogin: boolean) {
+  if (process.platform === "linux") {
+    await syncLinuxAutostartEntry({
+      enabled: openAtLogin,
+      appDataPath: app.getPath("appData"),
+      appName: app.getName(),
+      executablePath: app.getPath("exe"),
+      args: []
+    });
+    return;
+  }
+
+  if (shouldUseNativeLoginItemSettings(process.platform)) {
+    app.setLoginItemSettings({ openAtLogin });
+  }
 }
 
 async function openConfigFolder() {
@@ -308,10 +343,10 @@ async function quitApp() {
 
 function buildTrayTooltip(status: ServiceStatus | undefined) {
   if (!status) {
-    return "Claude Adapter GUI";
+    return "Claude Companion";
   }
   const state = status.running ? "运行中" : "已停止";
-  return `Claude Adapter GUI\n服务状态：${state}\n${status.baseUrl}`;
+  return `Claude Companion\n服务状态：${state}\n${status.baseUrl}`;
 }
 
 function buildBaseUrlMenuItems(status: ServiceStatus | undefined, fallbackBaseUrl: string) {

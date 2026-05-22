@@ -13,7 +13,7 @@ import { normalizeConfig } from "../src/main/proxy/config";
 import { createConfigState, createServer, stripAnthropicPrefix } from "../src/main/proxy/server";
 
 test("POST /api/config saves multi-model JSON and returns keys for local editing", async (t) => {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "claude-adapter-gui-server-"));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "claude-companion-server-"));
   const configPath = path.join(dir, "config.json");
   t.after(() => fs.rm(dir, { recursive: true, force: true }));
 

@@ -11,7 +11,7 @@ import test from "node:test";
 import { isPrivateLanIpv4, ProxyServiceManager } from "../src/main/proxy-service-manager";
 
 test("service manager starts and stops the local proxy", async (t) => {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "claude-adapter-gui-service-"));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "claude-companion-service-"));
   t.after(() => fs.rm(dir, { recursive: true, force: true }));
 
   await writeAvailablePortConfig(path.join(dir, "config.json"));
@@ -39,7 +39,7 @@ test("service manager reports port conflicts clearly", async (t) => {
   const address = blocker.address();
   assert(address && typeof address === "object");
 
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "claude-adapter-gui-conflict-"));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "claude-companion-conflict-"));
   t.after(() => fs.rm(dir, { recursive: true, force: true }));
 
   await fs.writeFile(
@@ -57,7 +57,7 @@ test("service manager reports port conflicts clearly", async (t) => {
 });
 
 test("saved config is visible to the running proxy immediately", async (t) => {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "claude-adapter-gui-config-"));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "claude-companion-config-"));
   t.after(() => fs.rm(dir, { recursive: true, force: true }));
 
   await writeAvailablePortConfig(path.join(dir, "config.json"));
@@ -88,7 +88,7 @@ test("saved config is visible to the running proxy immediately", async (t) => {
 });
 
 test("saving listen settings restarts the running proxy on the new port", async (t) => {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "claude-adapter-gui-listen-"));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "claude-companion-listen-"));
   t.after(() => fs.rm(dir, { recursive: true, force: true }));
 
   const configPath = path.join(dir, "config.json");
@@ -126,7 +126,7 @@ test("saving listen settings restarts the running proxy on the new port", async 
 });
 
 test("base URL remains 127.0.0.1 when listening on all interfaces", async (t) => {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "claude-adapter-gui-base-url-"));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "claude-companion-base-url-"));
   t.after(() => fs.rm(dir, { recursive: true, force: true }));
 
   const configPath = path.join(dir, "config.json");

@@ -38,7 +38,7 @@ test("public config base URL stays on 127.0.0.1 even when listening on 0.0.0.0",
 });
 
 test("saveWebConfig persists hide dock on close preference", async (t) => {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "claude-adapter-gui-ui-"));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "claude-companion-ui-"));
   t.after(() => fs.rm(dir, { recursive: true, force: true }));
 
   const configPath = path.join(dir, "config.json");
@@ -57,7 +57,7 @@ test("saveWebConfig persists hide dock on close preference", async (t) => {
 });
 
 test("saveWebConfig persists startup preferences", async (t) => {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "claude-adapter-gui-startup-"));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "claude-companion-startup-"));
   t.after(() => fs.rm(dir, { recursive: true, force: true }));
 
   const configPath = path.join(dir, "config.json");
@@ -83,7 +83,7 @@ test("saveWebConfig persists startup preferences", async (t) => {
 });
 
 test("saveWebConfig persists debug logging preference", async (t) => {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "claude-adapter-gui-debug-"));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "claude-companion-debug-"));
   t.after(() => fs.rm(dir, { recursive: true, force: true }));
 
   const configPath = path.join(dir, "config.json");

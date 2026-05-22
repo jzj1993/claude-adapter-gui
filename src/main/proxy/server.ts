@@ -87,7 +87,7 @@ export function createApp(state: ConfigState) {
   app.post("/openai/v1/images/generations", express.json({ limit: "10mb" }), async (req, res, next) => {
     const config = state.getConfig();
     if (!config) {
-      res.status(503).json({ error: { type: "not_configured_error", message: "llm-model-forward 还没有完成配置。" } });
+      res.status(503).json({ error: { type: "not_configured_error", message: "Claude Companion 还没有完成配置。" } });
       return;
     }
 
@@ -116,7 +116,7 @@ export function createApp(state: ConfigState) {
         type: "error",
         error: {
           type: "not_configured_error",
-          message: "llm-model-forward 还没有完成配置。请打开应用填写并保存配置。"
+          message: "Claude Companion 还没有完成配置。请打开应用填写并保存配置。"
         }
       });
       return;

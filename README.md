@@ -1,6 +1,11 @@
-# Claude Adapter GUI
+# Claude Companion
 
-基于 [welovesuzhou/claude-client-adapter](https://github.com/welovesuzhou/claude-client-adapter) 的桌面 GUI 版本。应用在本机启动代理服务，将 Claude / Anthropic 客户端的请求转发至已配置的远程模型服务。
+Claude 桌面代理应用，在本机启动服务，将 Claude / Anthropic 客户端的请求转发至已配置的远程模型服务。
+
+参考项目：
+
+- [jzj1993/llm-model-forward](https://github.com/jzj1993/llm-model-forward)
+- [welovesuzhou/claude-client-adapter](https://github.com/welovesuzhou/claude-client-adapter)
 
 请求链路如下：
 
@@ -48,7 +53,7 @@
 
 安装包通过 GitHub Releases 提供。
 
-Release 地址：[GitHub Releases](https://github.com/jzj1993/claude-adapter-gui/releases)
+Release 地址：[GitHub Releases](https://github.com/jzj1993/claude-companion/releases)
 
 安装完成后，按以下步骤配置：
 

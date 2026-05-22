@@ -1,7 +1,7 @@
 {
-  "name": "claude-adapter-gui",
-  "version": "0.1.0",
-  "description": "Electron GUI for a local Claude client adapter proxy.",
+  "name": "claude-companion",
+  "version": "0.1.1",
+  "description": "Electron GUI for a local Claude companion proxy.",
   "main": "dist/src/main/main.js",
   "type": "commonjs",
   "scripts": {
@@ -38,13 +38,15 @@
     "wait-on": "^9.0.3"
   },
   "build": {
-    "appId": "com.jzj.claude-adapter-gui",
-    "productName": "Claude Adapter GUI",
+    "appId": "com.jzj.claude-companion",
+    "productName": "Claude Companion",
+    "icon": "build/icon.png",
     "asar": true,
     "directories": {
       "output": "release"
     },
     "files": [
+      "build/icon.png",
       "dist/**/*",
       "package.json"
     ],

@@ -296,7 +296,7 @@ export function App() {
             <ProjectLogo />
             <div>
               <p className="eyebrow">Anthropic Proxy</p>
-              <h1>CLAUDE CLIENT ADAPTER</h1>
+              <h1>CLAUDE COMPANION</h1>
             </div>
           </div>
           <p className="hero-copy">
