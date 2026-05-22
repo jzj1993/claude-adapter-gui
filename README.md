@@ -105,3 +105,10 @@ npm run test
 
 - Node.js 20+
 - npm
+
+## 发版流程
+
+1. 更新版本号并完成本地验证。
+2. 提交并打 tag，例如 `v0.1.1`。
+3. 推送 `main` 和 tag 到 GitHub。
+4. GitHub Actions 会自动构建并发布对应的 Release。
